@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 const app = express();
-const PORT = 5000;
+const PORT = config.get('PORT') || 5000;
 const mongoUri = config.get('mongoUri');
 
 app.use(express.json({ extended: true }));
