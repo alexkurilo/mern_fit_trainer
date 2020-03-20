@@ -1,0 +1,7 @@
+{
+  "PORT": 5000,
+  "salt": 43,
+  "jwtSecret": "something secret key",
+  "mongoUri": "mongodb+srv://username:password1234@cluster0-4otr1.mongodb.net/fit_trainer?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}
