@@ -8,6 +8,9 @@ const schema = new Schema({
         type: String,
         unique: true,
     },
+    img: {
+        type: String,
+    },
     fitPlans: [{
         type: Types.ObjectId,
         ref: 'Plan'

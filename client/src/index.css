@@ -1,0 +1,26 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.user_left{
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.user_icon {
+    border-radius: 50%;
+    height: 50%;
+    margin: 0 10px;
+}
+
+.user_right {
+    margin-right: 1rem;
+}
