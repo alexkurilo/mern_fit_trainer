@@ -3,5 +3,14 @@
   "salt": 43,
   "jwtSecret": "something secret key",
   "mongoUri": "mongodb+srv://username:password1234@cluster0-4otr1.mongodb.net/fit_trainer?retryWrites=true&w=majority",
-  "baseUrl": "http://localhost:5000"
+  "baseUrl": "http://localhost:5000",
+  "googleConfig": {
+    "apiKey": "AIzaSyAkTbyIwfh_laAZSA-VNNJPLcdEuEgaqDM",
+    "authDomain": "test-app-a699d.firebaseapp.com",
+    "databaseURL": "https://test-app-a699d.firebaseio.com",
+    "projectId": "test-app-a699d",
+    "storageBucket": "test-app-a699d.appspot.com",
+    "messagingSenderId": "754081458995"
+  },
+  "googleAppId": "AIzaSyAkTbyIwfh_laAZSA-VNNJPLcdEuEgaqDM"
 }
