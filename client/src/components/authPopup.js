@@ -37,9 +37,7 @@ const AuthPopup = ({authPopup, onChangeVisibilityAuthPopup, onSaveUser}) => {
     return (
         <div className={'auth ' + visibility()}>
             <div className={'popup'}>
-                <p>
-                    <h4> You can log in using google</h4>
-                </p>
+                <h4> You can log in using google</h4>
                 <div
                     className="waves-effect waves-light btn"
                     onClick={signInHendler}

@@ -14,7 +14,7 @@ export const useRoutes = () => {
                 <HomePage />
             </Route>
             <Route
-                path="/exercises"
+                path="/exercises/:date"
                 exact
             >
                 <ExercisesPage />

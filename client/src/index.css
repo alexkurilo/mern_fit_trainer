@@ -24,3 +24,10 @@
 .user_right {
     margin-right: 1rem;
 }
+
+.calendar_container {
+    height: 60vh;
+    width: 63vw;
+    border: 1px solid black;
+    overflow: scroll;
+}
