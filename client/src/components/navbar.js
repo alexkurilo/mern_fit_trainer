@@ -52,7 +52,7 @@ const Navbar = ({user, onRemoveUser, onChangeVisibilityAuthPopup}) => {
 
 
 export default connect(
-    (state) => ({
+    state => ({
         user: state.user
     }),
     dispatch => ({

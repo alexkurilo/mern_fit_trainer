@@ -15,7 +15,7 @@ const AuthPopup = ({authPopup, onChangeVisibilityAuthPopup, onSaveUser}) => {
                 img: googleUser.getBasicProfile().getImageUrl(),
             };
 
-            fetch('/api/auth/login', {
+            fetch('/api/user', {
                 method: 'POST',
                 body: JSON.stringify({...userData}),
                 headers: {"Content-Type": "application/json"}

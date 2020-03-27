@@ -12,7 +12,7 @@ const ExercisesPage = () => {
 
 
 export default connect(
-    (state) => ({
+    state => ({
         user: state.user
     }),
     dispatch => ({

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
-import {withRouter} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import DefaultCalendar, {
     Calendar,
@@ -16,41 +16,41 @@ import DefaultCalendar, {
 // } from 'react-infinite-calendar';
 import "react-infinite-calendar/styles.css";
 
-class MyCalendar extends Component {
-    onChangeHandler = (dateObj) => {
+const MyCalendar = ({onAddDate, date, }) => {
+    const history = useHistory();
+
+    const onChangeHandler = (dateObj) => {
         const date = new Date(dateObj);
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const mounth = date.getMonth() < 9 ? ("0" + (1 + date.getMonth())) : (1 + date.getMonth());
         const year = date.getFullYear();
 
-        this.props.onAddDate(`${year}-${mounth}-${day}`);
-        this.props.history.push(`/exercises/${year}-${mounth}-${day}`);
+        onAddDate(`${year}-${mounth}-${day}`);
+        history.push(`/exercises/${year}-${mounth}-${day}`);
     };
-    render() {
-        return (
-            <DefaultCalendar
-                displayOptions={{
-                    layout: 'landscape',
-                    showOverlay: true,
-                    shouldHeaderAnimate: true,
-                    showHeader: false,
-                    todayHelperRowOffset: 1,
-                    overscanMonthCount: 1
-                }}
-                width={600}
-                height={600}
-                minDate={new Date()}
-                Component={withMultipleDates(Calendar)}
-                interpolateSelection={defaultMultipleDateInterpolation}
-                onSelect={this.onChangeHandler}
-                selected={this.props.date}
-            />
-        );
-    }
-}
+    return (
+        <DefaultCalendar
+            displayOptions={{
+                layout: 'landscape',
+                showOverlay: true,
+                shouldHeaderAnimate: true,
+                showHeader: false,
+                todayHelperRowOffset: 1,
+                overscanMonthCount: 1
+            }}
+            width={600}
+            height={600}
+            minDate={new Date()}
+            Component={withMultipleDates(Calendar)}
+            interpolateSelection={defaultMultipleDateInterpolation}
+            onSelect={onChangeHandler}
+            selected={date}
+        />
+    );
+};
 
-export default withRouter(connect(
-    (state) => ({
+export default connect(
+    state => ({
         user: state.user,
         date: state.date,
     }),
@@ -60,4 +60,4 @@ export default withRouter(connect(
             dispatch({type: 'ADD_DATE', payload})
         },
     })
-)(MyCalendar));
+)(MyCalendar);
