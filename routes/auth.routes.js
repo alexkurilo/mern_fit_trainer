@@ -1,24 +1,16 @@
 const {Router} = require('express');
-// const config = require("config");
-const User = require('../models/User');
+const Auth = require('../models/Auth');
 
 const router = Router();
 
-router.post('/login', async (request, response) => {
+router.post('/', async (request, response) => {
         try {
-            const userData = request.body;
-            const userCandidate = await User.findOne({ email: userData.email });
+            const requestData = request.body;
+            const data = await Auth.findOne(requestData);
 
-            if (userCandidate) {
-                return response.status(200).json({data: userCandidate});
-            }
-
-            const user = new User(userData);
-            await user.save();
-
-            response.status(201).json({data: userData});
+            response.status(200).json({data: data});
         } catch (e) {
-            response.status(500).json({message: 'Sorry, such user was not found and failed to create it.'});
+            response.status(500).json({message: 'Sorry, such auth was not found.'});
         }
     }
 );

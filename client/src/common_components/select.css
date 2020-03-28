@@ -1,0 +1,31 @@
+.custom-select {
+    width: 200px;
+    height: 40px;
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+    box-shadow: 0 0 5px #ccc;
+    margin: 20px;
+    position: relative;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20version%3D%221.1%22%20class%3D%22svg-triangle%22%3E%0A%20%20%3Cpolygon%20fill%3D%22%23c4c4c4%22%20points%3D%220%2C0%2020%2C0%2010%2C20%22/%3E%0A%3C/svg%3E');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 160px 10px;
+}
+.custom-select-value {
+    font-family: helvetica;
+    font-size: 20px;
+    line-height: 40px;
+    color: #a4a4a4;
+    box-sizing: border-box;
+    padding: 0 10px;
+}
+.custom-select select {
+    width: 200px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    display: block;
+    border: 1px solid #ccc;
+}
+
