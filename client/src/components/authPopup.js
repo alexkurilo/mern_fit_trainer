@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import './authPopup.css';
 
-const AuthPopup = ({authPopup, onChangeVisibilityAuthPopup, onSaveUser}) => {
+const AuthPopup = ({authPopup, onChangeVisibilityAuthPopup, onSaveUser, onSaveDates}) => {
     const signInHendler = () => {
         const GoogleAuth = window.gapi.auth2.getAuthInstance();
         GoogleAuth.signIn({
@@ -24,8 +24,14 @@ const AuthPopup = ({authPopup, onChangeVisibilityAuthPopup, onSaveUser}) => {
                 .then( ({ data }) => {
                     if (data) {
                         onSaveUser(data);
+                        fetch(`/api/user_day_exercise/${data._id}`)
+                            .then( response => response.json())
+                            .then( ({ data }) => {
+                                onSaveDates(data);
+                            });
                     }
                     onChangeVisibilityAuthPopup();
+                    return data;
                 });
         });
     };
@@ -68,6 +74,10 @@ export default connect(
         },
         onChangeVisibilityAuthPopup: () => {
             dispatch ({type: 'CHANGE_VISIBILITY_AUTH_POPUP'})
+        },
+        onSaveDates: datesList => {
+            const payload = datesList;
+            dispatch ({type: 'SAVE_DATES', payload})
         },
     })
 )(AuthPopup);

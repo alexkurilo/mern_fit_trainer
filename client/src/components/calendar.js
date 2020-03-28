@@ -16,7 +16,7 @@ import DefaultCalendar, {
 // } from 'react-infinite-calendar';
 import "react-infinite-calendar/styles.css";
 
-const MyCalendar = ({onAddDate, date, }) => {
+const MyCalendar = ({onAddDate, date, user, onSaveUserDayExercises}) => {
     const history = useHistory();
 
     const onChangeHandler = (dateObj) => {
@@ -24,6 +24,13 @@ const MyCalendar = ({onAddDate, date, }) => {
         const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         const mounth = date.getMonth() < 9 ? ("0" + (1 + date.getMonth())) : (1 + date.getMonth());
         const year = date.getFullYear();
+
+        fetch(`/api/user_day_exercise/${user._id}/${year}-${mounth}-${day}`)
+            .then( response => response.json())
+            .then( ({ data }) => {
+                data.sort((a, b) => a.index - b.index);
+                onSaveUserDayExercises(data);
+            });
 
         onAddDate(`${year}-${mounth}-${day}`);
         history.push(`/exercises/${year}-${mounth}-${day}`);
@@ -58,6 +65,10 @@ export default connect(
         onAddDate: date => {
             const payload = date;
             dispatch({type: 'ADD_DATE', payload})
+        },
+        onSaveUserDayExercises: data => {
+            const payload = data;
+            dispatch({type: 'SAVE_USER_DAY_EXERCISES', payload})
         },
     })
 )(MyCalendar);

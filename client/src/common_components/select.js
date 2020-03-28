@@ -21,8 +21,8 @@ const Select = ({exercises, onChange}) => {
             return (
                 <option
                     key={exercise._id || exercise.name}
-                    selected
                     value={index}
+                    defaultValue={'0'}
                 >
                     {exercise.name}
                 </option>
