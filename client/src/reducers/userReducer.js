@@ -2,10 +2,10 @@ const initialState = {
     name: null,
     email: null,
     img: null,
-    fitPlans: null,
+    // fitPlans: null,
 };
 
-export default function user (state = initialState, action){
+const userReducer  = (state = initialState, action) => {
     switch (action.type) {
         case "SAVE_USER":
             return {
@@ -23,4 +23,6 @@ export default function user (state = initialState, action){
                 ...state
             };
     }
-}
+};
+
+export default userReducer;

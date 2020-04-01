@@ -24,6 +24,8 @@ const DaysExercisePage = ({commonExercises, userDayExercises}) => {
                                 >
                                     <li>
                                         {exercise.name} {exercise.type} {exercise.quantity}
+                                        <i className="fa fa-arrow-circle-o-up fa-lg" aria-hidden="true"></i>
+                                        <i className="fa fa-arrow-circle-down fa-lg" aria-hidden="true"></i>
                                     </li>
                                 </div>
                             );

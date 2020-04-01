@@ -6,9 +6,9 @@ const router = Router();
 router.post('/', async (request, response) => {
         try {
             const requestData = request.body;
-            const data = await Auth.findOne(requestData);
+            const authData = await Auth.findOne(requestData);
 
-            response.status(200).json({data: data});
+            response.status(200).json(authData);
         } catch (e) {
             response.status(500).json({message: 'Sorry, such auth was not found.'});
         }
