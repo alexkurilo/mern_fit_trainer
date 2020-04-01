@@ -8,8 +8,8 @@ export const authAPI = {
                     axios.get('/api/auth', data)
                         .then( response => {
                             response.data.forEach(item => {
-                                if (item.type == 'oauth2') {
                                     dispatch({type: 'ADD_SOC_NET', payload: item.name});
+                                if (item.type == 'oauth2') {
                                     dispatch(this[item.name].initialization(item.client_id));
                                 }
                             });
@@ -52,7 +52,7 @@ export const authAPI = {
                 }
             );
         }
-    }
+    },
 };
 
 export const commonExercisesAPI = {
