@@ -8,7 +8,10 @@ export const authAPI = {
                     axios.get('/api/auth', data)
                         .then( response => {
                             response.data.forEach(item => {
-                                dispatch(this[item.name][item.type].initialization(item.client_id));
+                                if (item.type == 'oauth2') {
+                                    dispatch({type: 'ADD_SOC_NET', payload: item.name});
+                                    dispatch(this[item.name].initialization(item.client_id));
+                                }
                             });
                         })
                 );
@@ -16,40 +19,38 @@ export const authAPI = {
         )
     },
     google: {
-        oauth2: {
-            initialization (clientId) {
-                return (
-                    dispatch => {
-                        return (
-                            window.gapi.load('auth2', () => {
-                                window.gapi.auth2.init({
-                                    client_id : clientId,
-                                });
-                            })
-                        );
-                    }
-                )
-            },
-            getUser () {
-                return (
-                    dispatch => {
-                        return (
-                            window.gapi.auth2.getAuthInstance().signIn({
-                                scope: 'profile email'
-                            })
-                                .then((googleUser) => {
-                                    const userData = {
-                                        name: googleUser.getBasicProfile().getName(),
-                                        email: googleUser.getBasicProfile().getEmail(),
-                                        img: googleUser.getBasicProfile().getImageUrl(),
-                                    };
+        initialization (clientId) {
+            return (
+                dispatch => {
+                    return (
+                        window.gapi.load('auth2', () => {
+                            window.gapi.auth2.init({
+                                client_id : clientId,
+                            });
+                        })
+                    );
+                }
+            )
+        },
+        getUser () {
+            return (
+                dispatch => {
+                    return (
+                        window.gapi.auth2.getAuthInstance().signIn({
+                            scope: 'profile email'
+                        })
+                            .then((googleUser) => {
+                                const userData = {
+                                    name: googleUser.getBasicProfile().getName(),
+                                    email: googleUser.getBasicProfile().getEmail(),
+                                    img: googleUser.getBasicProfile().getImageUrl(),
+                                };
 
-                                    dispatch(usersAPI.getUser(userData));
-                                })
-                        )
-                    }
-                );
-            }
+                                dispatch(usersAPI.getUser(userData));
+                            })
+                    )
+                }
+            );
         }
     }
 };
@@ -61,8 +62,7 @@ export const commonExercisesAPI = {
                 return (
                     axios.get('/api/common_exercise')
                         .then( response => {
-                            const payload = response.data;
-                            dispatch({type: 'SAVE_COMMON_EXERCISES', payload})
+                            dispatch({type: 'SAVE_COMMON_EXERCISES', payload: response.data})
                         })
                 )
             }

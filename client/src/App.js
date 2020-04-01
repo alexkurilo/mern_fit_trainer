@@ -14,31 +14,30 @@ import 'materialize-css';
 
 class App extends Component {
     componentWillMount ( ) {
-        // this.props.onGetAuth();
+        this.props.onGetAuth();
 
         if (!this.props.commonExercises.length){
             this.props.onGetCommonExercises();
         }
 
-
 /////////////////////////////////////////////////////////////////////
-        if (!this.props.user.email){
-            this.props.onSaveUser({
-                _id: "5e789daa6834e397610339e2",
-                name: "Курило Алексей",
-                email: "kurilo.alex77@gmail.com",
-                img: "https://lh5.googleusercontent.com/-g36di1Gl0cc/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nAmbVm-PRYnUX319BGZZzI3Eqi8UA/s96-c/photo.jpg",
-                __v: 0,
-            });
-            this.props.onChangeVisibilityAuthPopup();
-
-            fetch(`/api/user_day_exercise/5e789daa6834e397610339e2`)
-                .then( response => response.json())
-                .then( response => {
-                    this.props.onSaveDates(response);
-                })
-            ;
-        }
+//         if (!this.props.user.email){
+//             this.props.onSaveUser({
+//                 _id: "5e789daa6834e397610339e2",
+//                 name: "Курило Алексей",
+//                 email: "kurilo.alex77@gmail.com",
+//                 img: "https://lh5.googleusercontent.com/-g36di1Gl0cc/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nAmbVm-PRYnUX319BGZZzI3Eqi8UA/s96-c/photo.jpg",
+//                 __v: 0,
+//             });
+//             this.props.onChangeVisibilityAuthPopup();
+//
+//             fetch(`/api/user_day_exercise/5e789daa6834e397610339e2`)
+//                 .then( response => response.json())
+//                 .then( response => {
+//                     this.props.onSaveDates(response);
+//                 })
+//             ;
+//         }
 ///////////////////////////////////////////////////////////////////////
 
     }

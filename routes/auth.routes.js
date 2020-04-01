@@ -5,7 +5,6 @@ const router = Router();
 
 router.get('/', async (request, response) => {
         try {
-            // const requestData = request.body;
             const authData = await Auth.find();
 
             response.status(200).json(authData);

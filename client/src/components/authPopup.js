@@ -7,9 +7,9 @@ import {
 
 import './authPopup.css';
 
-const AuthPopup = ({authPopup, onGetUser}) => {
-    const signInHendler = () => {
-        onGetUser();
+const AuthPopup = ({authPopup, onGetUser, socialNetworks}) => {
+    const signInHendler = (socNetName) => {
+        onGetUser(socNetName);
     };
 
     const visibility = () => {
@@ -19,20 +19,29 @@ const AuthPopup = ({authPopup, onGetUser}) => {
     return (
         <div className={'auth ' + visibility()}>
             <div className={'popup'}>
-                <h4> You can log in using google</h4>
-                <div
-                    className="waves-effect waves-light btn"
-                    onClick={signInHendler}
-                >
-                    <i className="material-icons left">
-                        <img
-                            className="icon_button"
-                            src="/img/google_icon.png"
-                            alt="google"
-                        />
-                    </i>
-                    sign in with Google
-                </div>
+                <h4> You can log in using some social network</h4>
+                {
+                    socialNetworks.map( socNetName => {
+                        return (
+                            <div
+                                key={socNetName}
+                                className="waves-effect waves-light btn"
+                                onClick={() => signInHendler(socNetName)}
+                            >
+                                <i className="material-icons left">
+                                    <img
+                                        className="icon_button"
+                                        src={`/img/${socNetName}_icon.png`}
+                                        alt={socNetName}
+                                    />
+                                </i>
+                                sign in with {socNetName}
+                            </div>
+                        )
+                    })
+                }
+
+
             </div>
         </div>
     );
@@ -41,11 +50,12 @@ const AuthPopup = ({authPopup, onGetUser}) => {
 export default connect(
     state => ({
         user: state.user,
-        authPopup: state.authPopup
+        authPopup: state.authPopup,
+        socialNetworks: state.socialNetworks,
     }),
     dispatch => ({
-        onGetUser: () => {
-            dispatch(authAPI.google.oauth2.getUser())
+        onGetUser: (socNetName) => {
+            dispatch(authAPI[socNetName].getUser())
         },
     })
 )(AuthPopup);

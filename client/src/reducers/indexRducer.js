@@ -4,6 +4,7 @@ import authPopup from './authPopupReducer';
 import date from './dateReducer';
 import commonExercises from './commonExercisesReducer';
 import userDayExercises from './userDayExercisesReduser';
+import socialNetworks from './socialNetworksReducer';
 
 export default combineReducers({
     user,
@@ -11,4 +12,5 @@ export default combineReducers({
     date,
     commonExercises,
     userDayExercises,
+    socialNetworks,
 })
