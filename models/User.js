@@ -11,10 +11,6 @@ const schema = new Schema({
     img: {
         type: String,
     },
-    fitPlans: [{
-        type: Types.ObjectId,
-        ref: 'Plan'
-    }]
 });
 
 module.exports = model('User', schema);

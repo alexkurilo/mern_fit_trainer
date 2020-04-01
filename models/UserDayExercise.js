@@ -1,6 +1,12 @@
 const {Schema, model} = require('mongoose');
 
 const schema = new Schema({
+    user_id: {
+        type: String,
+    },
+    date:{
+        type: String,
+    },
     name: {
         type: String,
     },
@@ -10,6 +16,9 @@ const schema = new Schema({
     quantity: {
         type: Number,
     },
+    index: {
+        type: Number,
+    },
 });
 
-module.exports = model('Exercise', schema);
+module.exports = model('UserDayExercise', schema);

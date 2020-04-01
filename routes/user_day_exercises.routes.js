@@ -4,49 +4,40 @@ const UserDayExercise = require('../models/UserDayExercise');
 
 const router = Router();
 
+router.get('/:user_id', async (request, response) => {
+        try {
+            const userId = request.params.user_id;
+            const datesList = await UserDayExercise
+                .find({
+                    user_id: userId,
+                },
+                {
+                    date: 1,
+                    _id: 0,
+                })
+                .sort({date: 1});
+
+            let result = {};
+            datesList.forEach(item => result[item.date] = item.date);
+
+            response.status(200).json(Object.keys(result));
+        } catch (e) {
+            response.status(500).json({message: 'Sorry, such date was not found.'});
+        }
+    }
+);
+
 router.get('/:user_id/:date', async (request, response) => {
         try {
-            // const exercisesList = await UserExercise.find();
-            //
-            // response.status(200).json({data: exercisesList});
-            const body = request.body;
-            console.log('body: ', body);
-            // debugger;
-            const userGayExerciseData1 = {
-                client_id: '5e789daa6834e397610339e2',
-                date:'2020-03-27',
-                name: 'chest press',
-                type: 'kg',
-                quantity: 100,
-                index: 2,
-            };
-            const userDayExercise1 = new UserDayExercise(userGayExerciseData1);
-            await userDayExercise1.save();
+            const userId = request.params.user_id;
+            const date = request.params.date;
 
-            const userGayExerciseData2 = {
-                client_id: '5e789daa6834e397610339e2',
-                date:'2020-03-27',
-                name: 'run',
-                type: 'min',
-                quantity: 10,
-                index: 3,
-            };
-            const userDayExercise2 = new UserDayExercise(userGayExerciseData2);
-            await userDayExercise2.save();
+            const exercisesList = await UserDayExercise.find({
+                user_id: userId,
+                date: date,
+            });
 
-            const userGayExerciseData3 = {
-                client_id: '5e789daa6834e397610339e2',
-                date:'2020-03-27',
-                name: 'bench press',
-                type: 'iterations',
-                quantity: 100,
-                index: 1,
-            };
-            const userDayExercise3 = new UserDayExercise(userGayExerciseData3);
-            await userDayExercise3.save();
-
-
-            response.status(200).json({data: 'OK'});
+            response.status(200).json({data: exercisesList});
         } catch (e) {
             response.status(500).json({message: 'Sorry, such exercise was not found.'});
         }

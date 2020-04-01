@@ -23,6 +23,18 @@
     flex-direction: column;
 }
 
-i .icon_button{
+.soc_window{
+    display: flex;
+    justify-content: space-around;
+}
+
+.soc_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.icon_button{
     height: 36px;
 }
