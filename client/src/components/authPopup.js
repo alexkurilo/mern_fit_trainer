@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import {
-    googleAPI,
+    authAPI,
 } from '../api';
 
 import './authPopup.css';
@@ -45,7 +45,7 @@ export default connect(
     }),
     dispatch => ({
         onGetUser: () => {
-            dispatch(googleAPI.getUser())
+            dispatch(authAPI.google.oauth2.getUser())
         },
     })
 )(AuthPopup);

@@ -3,10 +3,10 @@ const Auth = require('../models/Auth');
 
 const router = Router();
 
-router.post('/', async (request, response) => {
+router.get('/', async (request, response) => {
         try {
-            const requestData = request.body;
-            const authData = await Auth.findOne(requestData);
+            // const requestData = request.body;
+            const authData = await Auth.find();
 
             response.status(200).json(authData);
         } catch (e) {

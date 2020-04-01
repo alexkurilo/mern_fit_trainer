@@ -1,53 +1,56 @@
 import * as axios from 'axios';
 
-export const googleAPI = {
-    initialization (clientId) {
-        return (
-            dispatch => {
-                return (
-                    window.gapi.load('auth2', () => {
-                        window.gapi.auth2.init({
-                            client_id : clientId,
-                        });
-                    })
-                );
-            }
-        )
-    },
-    getUser () {
-        return (
-            dispatch => {
-                return (
-                    window.gapi.auth2.getAuthInstance().signIn({
-                        scope: 'profile email'
-                    })
-                        .then((googleUser) => {
-                            const userData = {
-                                name: googleUser.getBasicProfile().getName(),
-                                email: googleUser.getBasicProfile().getEmail(),
-                                img: googleUser.getBasicProfile().getImageUrl(),
-                            };
-
-                            dispatch(usersAPI.getUser(userData));
-                        })
-                )
-            }
-        );
-    }
-};
-
 export const authAPI = {
     getAuthData (data) {
         return (
             dispatch => {
                 return (
-                    axios.post('/api/auth', data)
+                    axios.get('/api/auth', data)
                         .then( response => {
-                            dispatch(googleAPI.initialization(response.data.client_id))
+                            response.data.forEach(item => {
+                                dispatch(this[item.name][item.type].initialization(item.client_id));
+                            });
                         })
                 );
             }
         )
+    },
+    google: {
+        oauth2: {
+            initialization (clientId) {
+                return (
+                    dispatch => {
+                        return (
+                            window.gapi.load('auth2', () => {
+                                window.gapi.auth2.init({
+                                    client_id : clientId,
+                                });
+                            })
+                        );
+                    }
+                )
+            },
+            getUser () {
+                return (
+                    dispatch => {
+                        return (
+                            window.gapi.auth2.getAuthInstance().signIn({
+                                scope: 'profile email'
+                            })
+                                .then((googleUser) => {
+                                    const userData = {
+                                        name: googleUser.getBasicProfile().getName(),
+                                        email: googleUser.getBasicProfile().getEmail(),
+                                        img: googleUser.getBasicProfile().getImageUrl(),
+                                    };
+
+                                    dispatch(usersAPI.getUser(userData));
+                                })
+                        )
+                    }
+                );
+            }
+        }
     }
 };
 
