@@ -19,7 +19,7 @@ export const authAPI = {
     google: {
         initialization (clientId) {
             return (
-                async dispatch => {
+                async () => {
                     try {
                         await window.gapi.load('auth2', () => {
                             window.gapi.auth2.init({
