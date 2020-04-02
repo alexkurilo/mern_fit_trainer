@@ -1,54 +1,48 @@
-import * as axios from 'axios';
+import axios from 'axios';
 
 export const authAPI = {
     getAuthData (data) {
         return (
-            dispatch => {
-                return (
-                    axios.get('/api/auth', data)
-                        .then( response => {
-                            response.data.forEach(item => {
-                                    dispatch({type: 'ADD_SOC_NET', payload: item.name});
-                                if (item.type == 'oauth2') {
-                                    dispatch(this[item.name].initialization(item.client_id));
-                                }
-                            });
-                        })
-                );
+            async dispatch => {
+                try {
+                    const response = await axios.get('/api/auth', data);
+                    response.data.forEach(socNet => {
+                        dispatch({type: 'ADD_SOC_NET', payload: socNet.name});
+                        if (socNet.type == 'oauth2') {
+                            dispatch(this[socNet.name].initialization(socNet.client_id));
+                        }
+                    });
+                } catch (e) {}
             }
         )
     },
     google: {
         initialization (clientId) {
             return (
-                dispatch => {
-                    return (
-                        window.gapi.load('auth2', () => {
+                async () => {
+                    try {
+                        await window.gapi.load('auth2', () => {
                             window.gapi.auth2.init({
                                 client_id : clientId,
                             });
-                        })
-                    );
+                        });
+                    } catch (e) {}
                 }
             )
         },
         getUser () {
             return (
-                dispatch => {
-                    return (
-                        window.gapi.auth2.getAuthInstance().signIn({
+                async dispatch => {
+                    try {
+                        const googleUser = await window.gapi.auth2.getAuthInstance().signIn({
                             scope: 'profile email'
-                        })
-                            .then((googleUser) => {
-                                const userData = {
-                                    name: googleUser.getBasicProfile().getName(),
-                                    email: googleUser.getBasicProfile().getEmail(),
-                                    img: googleUser.getBasicProfile().getImageUrl(),
-                                };
-
-                                dispatch(usersAPI.getUser(userData));
-                            })
-                    )
+                        });
+                        dispatch(usersAPI.getUser({
+                            name: googleUser.getBasicProfile().getName(),
+                            email: googleUser.getBasicProfile().getEmail(),
+                            img: googleUser.getBasicProfile().getImageUrl(),
+                        }));
+                    } catch (e) {}
                 }
             );
         }
@@ -58,13 +52,11 @@ export const authAPI = {
 export const commonExercisesAPI = {
     getCommonExercises () {
         return (
-            dispatch => {
-                return (
-                    axios.get('/api/common_exercise')
-                        .then( response => {
-                            dispatch({type: 'SAVE_COMMON_EXERCISES', payload: response.data})
-                        })
-                )
+            async dispatch => {
+                try {
+                    const response = await axios.get('/api/common_exercise');
+                    dispatch({type: 'SAVE_COMMON_EXERCISES', payload: response.data});
+                } catch (e) {}
             }
         );
     }
@@ -73,13 +65,11 @@ export const commonExercisesAPI = {
 export const userDayExercisesAPI = {
     getDaysList (userId) {
         return (
-            dispatch => {
-                return (
-                    axios.get(`/api/user_day_exercise/${userId}`)
-                        .then( response => {
-                            dispatch({type: 'SAVE_DATES', payload: response.data});
-                        })
-                )
+            async dispatch => {
+                try {
+                    const response = await axios.get(`/api/user_day_exercise/${userId}`);
+                    dispatch({type: 'SAVE_DATES', payload: response.data});
+                } catch (e) {}
             }
         )
     }
@@ -88,22 +78,18 @@ export const userDayExercisesAPI = {
 export const usersAPI = {
     getUser (userData) {
         return (
-            dispatch => {
-                return (
-                    axios.post(
+            async dispatch => {
+                try {
+                    const response = await axios.post(
                         '/api/user',
                         userData,
-                        {
-                            headers: {"Content-Type": "application/json"},
-                        })
-                        .then(response => {
-                            if (response.data) {
-                                dispatch({type: 'SAVE_USER', payload: response.data});
-                                dispatch({type: 'CHANGE_VISIBILITY_AUTH_POPUP'});
-                                dispatch(userDayExercisesAPI.getDaysList(response.data._id));
-                            }
-                        })
-                )
+                        {headers: {"Content-Type": "application/json"}});
+                    if (response.data) {
+                        dispatch({type: 'SAVE_USER', payload: response.data});
+                        dispatch({type: 'CHANGE_VISIBILITY_AUTH_POPUP'});
+                        dispatch(userDayExercisesAPI.getDaysList(response.data._id));
+                    }
+                } catch (e) {}
             }
         );
     }
