@@ -10,6 +10,7 @@ app.use(express.json({ extended: true }));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/user', require('./routes/user.routes'));
 app.use('/api/common_exercise', require('./routes/common_exercises.routes'));
+app.use('/api/user_day_plan', require('./routes/user_day_plans.routes'));
 app.use('/api/user_day_exercise', require('./routes/user_day_exercises.routes'));
 
 async function start () {

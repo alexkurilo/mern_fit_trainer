@@ -14,9 +14,15 @@ import DefaultCalendar, {
 //     defaultMultipleDateInterpolation,
 //     withMultipleDates,
 // } from 'react-infinite-calendar';
+
+import {
+    userDayExercisesAPI,
+    userDayPlansAPI,
+} from '../api';
+
 import "react-infinite-calendar/styles.css";
 
-const MyCalendar = ({onAddDate, date, user, onSaveUserDayExercises}) => {
+const MyCalendar = ({onAddDate, date, user, userDayPlan, onGetUserDayExercises, onGetUserDayPlan, onGetUserDayPLanExercises}) => {
     const history = useHistory();
 
     const onChangeHandler = (dateObj) => {
@@ -25,12 +31,9 @@ const MyCalendar = ({onAddDate, date, user, onSaveUserDayExercises}) => {
         const mounth = date.getMonth() < 9 ? ("0" + (1 + date.getMonth())) : (1 + date.getMonth());
         const year = date.getFullYear();
 
-        fetch(`/api/user_day_exercise/${user._id}/${year}-${mounth}-${day}`)
-            .then( response => response.json())
-            .then( ({ data }) => {
-                data.sort((a, b) => a.index - b.index);
-                onSaveUserDayExercises(data);
-            });
+        onGetUserDayPlan(user._id, `${year}-${mounth}-${day}`);
+        onGetUserDayExercises(user._id, `${year}-${mounth}-${day}`);
+        onGetUserDayPLanExercises(userDayPlan);
 
         onAddDate(`${year}-${mounth}-${day}`);
         history.push(`/exercises/${year}-${mounth}-${day}`);
@@ -60,15 +63,21 @@ export default connect(
     state => ({
         user: state.user,
         date: state.date,
+        userDayPlan: state.userDayPlan,
     }),
     dispatch => ({
         onAddDate: date => {
             const payload = date;
             dispatch({type: 'ADD_DATE', payload})
         },
-        onSaveUserDayExercises: data => {
-            const payload = data;
-            dispatch({type: 'SAVE_USER_DAY_EXERCISES', payload})
+        onGetUserDayPlan: (userId, date) => {
+            dispatch(userDayPlansAPI.getUserDaysPlan(userId, date));
+        },
+        onGetUserDayExercises: (userId, date) => {
+            dispatch(userDayExercisesAPI.getUserDayExercise(userId, date));
+        },
+        onGetUserDayPLanExercises: (userId, date) => {
+            dispatch(userDayExercisesAPI.getUserDayPlanExercise(userId, date));
         },
     })
 )(MyCalendar);

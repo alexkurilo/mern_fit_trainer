@@ -31,3 +31,15 @@
     border: 1px solid black;
     overflow: scroll;
 }
+
+th, td {
+    padding: 1rem;
+}
+
+th .width_40{
+    width:40%;
+}
+
+.th-right{
+    text-align: right;
+}

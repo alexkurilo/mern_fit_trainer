@@ -35,9 +35,49 @@ router.get('/:user_id/:date', async (request, response) => {
             const exercisesList = await UserDayExercise.find({
                 user_id: userId,
                 date: date,
-            });
+            }).sort( { index : 1 } );
 
-            response.status(200).json({data: exercisesList});
+            response.status(200).json(exercisesList);
+        } catch (e) {
+            response.status(500).json({message: 'Sorry, such exercise was not found.'});
+        }
+    }
+);
+
+router.post('/', async (request, response) => {
+        try {
+            const exercise = request.body;
+
+            const newExercise = new UserDayExercise(exercise);
+            await newExercise.save();
+
+            response.status(200).json(exercise);
+        } catch (e) {
+            response.status(500).json({message: 'Sorry, such exercise not create.'});
+        }
+    }
+);
+
+router.put('/:exercise_id', async (request, response) => {
+        try {
+            const exercise = request.body;
+
+            await UserDayExercise.updateOne({_id: exercise._id,},
+                exercise,
+                {upsert: true});
+
+            response.status(200).json(exercise);
+        } catch (e) {
+            response.status(500).json({message: 'Sorry, such exercise was not found.'});
+        }
+    }
+);
+
+router.delete('/:exercise_id', async (request, response) => {
+        try {
+            const exerciseId = request.params.exercise_id;
+            const result = await UserDayExercise.deleteOne({_id: exerciseId});
+            response.status(200).json(result);
         } catch (e) {
             response.status(500).json({message: 'Sorry, such exercise was not found.'});
         }

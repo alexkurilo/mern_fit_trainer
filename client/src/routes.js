@@ -5,7 +5,7 @@ import HomePage from './pages/homePage';
 import ExercisesPage from './pages/exercisesPage';
 import DaysExercisePage from './pages/daysExercisePage';
 
-export const useRoutes = () => {
+export const useRoutes = (user) => {
     return (
         <Switch>
             <Route
@@ -14,18 +14,22 @@ export const useRoutes = () => {
             >
                 <HomePage />
             </Route>
-            <Route
-                path="/exercises"
-                exact
-            >
-                <ExercisesPage />
-            </Route>
-            <Route
-                path="/exercises/:date"
-                exact
-            >
-                <DaysExercisePage />
-            </Route>
+            { user && (
+                    <>
+                        <Route
+                            path="/exercises"
+                            exact
+                        >
+                            <ExercisesPage />
+                        </Route>
+                        <Route
+                            path="/exercises/:date"
+                            exact
+                            component={DaysExercisePage}
+                        />
+                    </>
+                )
+            }
             <Redirect to="/" />
         </Switch>
     );

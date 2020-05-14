@@ -7,7 +7,7 @@ import {
 
 import './authPopup.css';
 
-const AuthPopup = ({authPopup, onGetUser, socialNetworks}) => {
+const AuthPopup = ({popup, onGetUser, socialNetworks}) => {
     const signInHendler = (socNetName) => {
         if (socNetName === 'google'){
             onGetUser(socNetName);
@@ -17,7 +17,7 @@ const AuthPopup = ({authPopup, onGetUser, socialNetworks}) => {
     };
 
     const visibility = () => {
-        return authPopup ? 'visible' : 'hidden';
+        return popup.authPopup ? 'visible' : 'hidden';
     };
 
     return (
@@ -51,7 +51,7 @@ const AuthPopup = ({authPopup, onGetUser, socialNetworks}) => {
 export default connect(
     state => ({
         user: state.user,
-        authPopup: state.authPopup,
+        popup: state.popup,
         socialNetworks: state.socialNetworks,
     }),
     dispatch => ({

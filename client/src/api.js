@@ -62,6 +62,20 @@ export const commonExercisesAPI = {
     }
 };
 
+export const userDayPlansAPI = {
+    getUserDaysPlan (userId, date) {
+        return (
+            async dispatch => {
+                try {
+                    const response = await axios.get(`/api/user_day_plan/${userId}/${date}`);
+                    console.log(response);
+                    dispatch({type: 'SET_USER_DAY_PLANS', payload: response.data.exercises});
+                } catch (e) {}
+            }
+        )
+    },
+};
+
 export const userDayExercisesAPI = {
     getDaysList (userId) {
         return (
@@ -72,7 +86,62 @@ export const userDayExercisesAPI = {
                 } catch (e) {}
             }
         )
-    }
+    },
+    getUserDayExercise (userId, date) {
+        return (
+            async dispatch => {
+                try {
+                    const response = await axios.get(`/api/user_day_exercise/${userId}/${date}`);
+                    dispatch({type: 'SAVE_USER_DAY_EXERCISES', payload: response.data});
+                } catch (e) {}
+            }
+        )
+    },
+    getUserDayPlanExercise (arrayExercisesIds) {
+        return (
+            async dispatch => {
+                try {
+                    const response = await axios.get(`/api/user_day_exercise/${arrayExercisesIds.user_id}/${arrayExercisesIds.date}`);
+                    console.log(response.data);
+                    // dispatch({type: 'SAVE_USER_DAY_EXERCISES', payload: response.data});
+                } catch (e) {}
+            }
+        )
+    },
+    updateUserDayExercise (exercise) {
+        console.log('exercise.index =', exercise.index);
+        return (
+            async () => {
+                try {
+                    await axios.put(
+                        `/api/user_day_exercise/${exercise._id}`,
+                        exercise,
+                        {headers: {"Content-Type": "application/json"}});
+                } catch (e) {}
+            }
+        )
+    },
+    createUserDayExercise (exercise) {
+        return (
+            async () => {
+                try {
+                    await axios.post(
+                        `/api/user_day_exercise`,
+                        exercise,
+                        {headers: {"Content-Type": "application/json"}});
+                } catch (e) {}
+            }
+        )
+    },
+    deleteUserDayExercise (exerciseId) {
+        return (
+            async () => {
+                try {
+                    await axios.delete(`/api/user_day_exercise/${exerciseId}`);
+                } catch (e) {}
+            }
+        )
+    },
 };
 
 export const usersAPI = {

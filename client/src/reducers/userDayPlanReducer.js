@@ -1,8 +1,8 @@
-const initialExercises = [];
+const initialPlan = [];
 
-export default function userDayExercises (state = initialExercises, action){
+export default function userDayPlan (state = initialPlan, action){
     switch (action.type) {
-        case "SAVE_USER_DAY_EXERCISES":
+        case "SET_USER_DAY_PLANS":
             return [
                 ...action.payload
             ];
